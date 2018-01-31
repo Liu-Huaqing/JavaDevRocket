@@ -63,6 +63,24 @@
 
 ## 如何保证消息不被重复消费啊？
 
+Kafka 使用 Offset 机制来进行消息消费的跟踪。在 Consumer 获取数据的时候，更新相应的 Offset。具体 Offset 由谁来保存，保存在哪儿，都可以灵活配置。
+在 Kafka 历史变迁的过程中，主要有以下几类的 Consumer:
+* `HighLevel-Consumer`: 比较自动化的版本，但`不支持自己保存 Offset`,有`惊群效应和脑裂问题`。
+* `Simple-Consumer`: 非常简单的版本，自己需要做很多事情。
+* `KafkaConsumer-subscribe`: 在拥有 `HighLevel-Consumer` 的特性的基础上，支持了`自己保存 Offset`，`接近完美`。
+
+通过 Offset 的合理控制，可以有效避免消息的重复消费:
+消费消息和修改 Offset 的先后
+
+1. `先修改 Offset，再消费消息`
+这种情况下，一旦 Offset 被修改，就已经脱离了 Kafka 的范围，由`客户端来唯一保证消息被正确的唯一的消费和处理`。
+由 Kafka 保存 Offset 就是这一类情况
+
+2. `先消费消息，再修改 Offset`
+这种情况下，客户端定义来 Kafka 拿一批数据消费，消费完成后，再修改 Offset。客户端假定`消息可以被重复消费`，或者`客户端有自己的去重机制`。
+
+相关配图：
+![Kafka Consumer版本变迁](./consumer-history.jpeg)
 
 ## kafka, activemq, rabbitmq, rocketmq, redis 都有什么优点，缺点啊？
 
@@ -73,7 +91,10 @@
 * [@运维那点事](http://www.ywnds.com/?p=5791)
 * [@To be, or not to be](https://www.cnblogs.com/tuhooo/p/8109083.html)
 * [@Kafka高可用原理](https://www.cnblogs.com/gm-201705/p/7795676.html)
-* [@Kafka设计解析(2)-Kafka High Availability（上）](http://www.jasongj.com/2015/04/24/KafkaColumn2/)
+* [@Kafka设计解析(1)-Kafka High Availability（上）](http://www.jasongj.com/2015/04/24/KafkaColumn2/)
 * [@Kafka设计解析(2)-Kafka High Availability（下）](http://www.jasongj.com/2015/04/24/KafkaColumn2/)
+* [@Kafka设计解析(4)-KafkaConsumer设计解析](http://www.jasongj.com/2015/08/09/KafkaColumn4/)
+* [@Kafka Consumer各版本分析总结](http://blog.csdn.net/cymvp/article/details/69554569)
+
 
 
