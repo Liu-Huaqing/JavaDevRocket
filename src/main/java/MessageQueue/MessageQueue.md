@@ -83,6 +83,7 @@ Kafka 使用 Offset 机制来进行消息消费的跟踪。在 Consumer 获取�
 ![Kafka Consumer版本变迁](./consumer-history.jpeg)
 
 ## kafka, activemq, rabbitmq, rocketmq, redis 都有什么优点，缺点啊？
+需要背景知识较丰富，明日集中研究补充。
 
 ## 如果让你写一个消息队列，该如何进行架构设计啊？说一下你的思路.
 
@@ -95,6 +96,7 @@ Kafka 使用 Offset 机制来进行消息消费的跟踪。在 Consumer 获取�
 * [@Kafka设计解析(2)-Kafka High Availability（下）](http://www.jasongj.com/2015/04/24/KafkaColumn2/)
 * [@Kafka设计解析(4)-KafkaConsumer设计解析](http://www.jasongj.com/2015/08/09/KafkaColumn4/)
 * [@Kafka Consumer各版本分析总结](http://blog.csdn.net/cymvp/article/details/69554569)
+* [@所有的 message queues](http://queues.io/)
 
 
 
