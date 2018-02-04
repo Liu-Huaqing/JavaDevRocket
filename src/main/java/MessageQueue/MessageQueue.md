@@ -82,10 +82,59 @@ Kafka 使用 Offset 机制来进行消息消费的跟踪。在 Consumer 获取�
 相关配图：
 ![Kafka Consumer版本变迁](./consumer-history.jpeg)
 
-## kafka, activemq, rabbitmq, rocketmq, redis 都有什么优点，缺点啊？
-需要背景知识较丰富，明日集中研究补充。
+## kafka, activemq, rabbitmq, rocketmq, redis 都有什么优点，缺点啊？或者是然后选择消息中间件？
+
+整体思路
+* 是否支持 `JMS API规范`
+* 发送的数据是  `Data or Cmd`，一般 Data 处理起来会较快（外部依赖少），Cmd 处理起来较慢（外部依赖多）
+* Consumer 可以分为 `快和慢`，`稳定和不稳定`
+
+Kafka 的特点是：
+* message 被放到 topic 的 partition 中；
+* partition 中的 消息可以看做是一个很长的 stream；
+* consumer 负责遍历这个 stream;
+* partition 中的消息遍历是有序的;
+
+Kafka 的优势：
+* 消费速度非常快速，达到单台机器 10万/每秒
+
+Kafka 的劣势：
+* `每个 partition 只能有一个 consumer`（in the consumer group）；
+* 适合与快速 consumer 合作，`不适合慢速 consumer，容易让 partition 中的消息堆积`
+* 由于底层实现机制的原因，`实现一个 partition 支持多 consumer 不容易`
+* `没有 AMQP 的特点`
+
+综上，kafka 适合于`高吞吐量、弱事务性、非事务性的消息传递`
+
+
+
+RabbitMQ 是很传统的 Message Queue 的工作方式：
+* 底层`实现 AMQP`;
+* Producer 发送消息给 Queue;
+* 多个 Consumers 同时连接一个 Queue；
+* `消息会被分布到多个 Consumer 上来消费`；
+* 如果只有一个 Consumer，消息投递顺序是可以保证的；
+
+RabbitMQ 优势：
+* `遵循 AMQP 协议`，具备各种 AMQP 的优点（需深入）；
+* 借助erlang的特性在`可靠性、稳定性和实时性上比别的 MQ 做得更好`
+
+`RabbitMQ 由于实现了 AMQP，适用于商业级别的消息通信`。
+
+================================= 其他 Message Queue =================================
+RocketMQ, ActiveMQ 不熟悉。
+
+AMQP 协议特点（理解很浅显）：
+* 容易理解和使用；
+* 安全；
+* 高保真 - 明确的`消息投递语意`覆盖（At Least Once, At Most Once, Exactly Once），明确的`消息顺序语意`, 明确的`失败语意`；
+* 互通性；
+
+Redis 只是一个很简单的内存级别的 pub-sub，不支持消息持久化;
 
 ## 如果让你写一个消息队列，该如何进行架构设计啊？说一下你的思路.
+* TODO
+* 消息队列/中间件是一个很核心的企业组件，值得在多深入研究之后再来重写本章
 
 
 引用
@@ -97,6 +146,9 @@ Kafka 使用 Offset 机制来进行消息消费的跟踪。在 Consumer 获取�
 * [@Kafka设计解析(4)-KafkaConsumer设计解析](http://www.jasongj.com/2015/08/09/KafkaColumn4/)
 * [@Kafka Consumer各版本分析总结](http://blog.csdn.net/cymvp/article/details/69554569)
 * [@所有的 message queues](http://queues.io/)
+* [@What is AMQP](https://www.amqp.org/about/what)
+* [@AMQP 架构](http://www.amqp.org/product/architecture)
+* [@kafka or rabbitmq](https://yurisubach.com/2016/05/19/kafka-or-rabbitmq/)
 
 
 
