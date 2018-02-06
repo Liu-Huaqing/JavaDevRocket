@@ -150,5 +150,3 @@ Redis 只是一个很简单的内存级别的 pub-sub，不支持消息持久化
 * [@AMQP 架构](http://www.amqp.org/product/architecture)
 * [@kafka or rabbitmq](https://yurisubach.com/2016/05/19/kafka-or-rabbitmq/)
 
-
-
