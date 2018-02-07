@@ -35,6 +35,20 @@ Http 2.0
 * `二进制 Frame`：HTTP/2在 应用层(HTTP/2)和传输层(TCP or UDP)之间增加一个`二进制分帧层`；
 * `首部压缩`：HTTP/1.1并不支持 HTTP 首部压缩，为此 SPDY 和 HTTP/2 应运而生；
 
+## TCP 三次握手，四层分手的工作流程？画一下流程图？为什么不是四次、五次或者二次啊？
+* `客户端 TCP 状态迁移`：CLOSED->SYN_SENT->ESTABLISHED->FIN_WAIT_1->FIN_WAIT_2->TIME_WAIT->CLOSED
+* `服务器 TCP 状态迁移`：CLOSED->LISTEN->SYN收到->ESTABLISHED->CLOSE_WAIT->LAST_ACK->CLOSED
+
+![TCP握手](./tcp-conn.jpeg)
+
+为什么是三次握手呢？
+* 第一次和第二次，`一个 SYN、一个 ACK，双方就对客户端的序列号达成了一致`，客户端进入 Established 状态；
+* 第二次和第三次，`对服务端的序列号达成了一致`，服务端进入 Established 状态;
+
+TCP 四次挥手
+* TCP 三次握手中，服务端可以`把ACK和SYN（ACK起应答作用，而SYN起同步作用）放在一个报文里来发送`
+* TCP 四次挥手中，由于TCP连接是全双工的，因此`每个方向都必须单独进行关闭`
+* 关闭连接时，当收到对方的FIN报文通知时，它`仅仅表示对方没有数据发送给你了；但未必你所有的数据都全部发送给对方了`，所以你可以未必会马上会关闭SOCKET,也即你`可能还需要发送一些数据给对方之后，再发送FIN报文`给对方来表示你同意现在可以关闭连接了，所以它这里的ACK报文和FIN报文多数情况下都是分开发送的。
 
 引用
 * [@HTTP Wikipedia](https://en.wikipedia.org/wiki/Hypertext_Transfer_Protocol)
