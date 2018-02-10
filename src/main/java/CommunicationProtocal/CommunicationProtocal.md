@@ -70,10 +70,6 @@ TCP 四次挥手
 使用双向加密，避免中间人攻击：
 ![HTTPS 双向加密](./https-two-sides-encrypt.png)
 
-
-
-
-
 引用
 * [@HTTP Wikipedia](https://en.wikipedia.org/wiki/Hypertext_Transfer_Protocol)
 * [@HTTP 2 相对于 HTTP 1 的重大改进](https://www.zhihu.com/question/34074946)
