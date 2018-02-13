@@ -27,9 +27,41 @@ B+ && B- 比 B树 IO 效率要高，一个磁盘块，存储可多路去向，�
 ![myisam-engine](./myisam-engine.jpeg)
 ![memory-engine](./memory-engine.jpeg)
 
+## 设计高并发系统，数据库层面该如何设计？
+高并发完成`数据库设计是要结合不同的应用场景的`，
+
+0. 小型网站的应用高并发`采用读写分离基本上就能解决问题`；
+1. 字段访问比较均衡，`业务导向明显`，采用`垂直切分`（网上商城，多条业务线）；
+2. 字段访问比较均衡，`业务导向不明显`，采用`水平切分`（对单一应用的高并发访问）；
+3. `单一字段访问比较集中`（秒杀、大量用户对同一账户操作）；
+
+### 读写分离
+![读写分离](./write-read-separation.jpeg)
+
+### 业务导向明显，垂直切分
+将`数据库和服务进行垂直化切分`，通过服务之间的调用来完成业务
+这种拆分方式代价：
+* `join 操作无法在数据库层面做`
+* 单表`大数据量依然存在性能瓶颈`
+* `事务保证比较复杂`- 分布式事务
+* `应用端的复杂性增加`
+
+![垂直切分](./vertical-sharding.png)
+
+### 单表数据量大，业务导向不明显，水平切分
+把一个表按照某种规则把数据划分到不同表或数据库里，使得各个数据库中的数据互不关联
+
+![水平切分](./horizontal-sharding.png)
+
+水平切分和垂直切分同时使用
+
+![水平+垂直切分](./vertical-horizontal-sharding.png)
+
+### 单点系统
+
+### 对数据库
 
 引用：
 * [@B树，B-树，B+树，B*树](http://www.cnblogs.com/oldhorse/archive/2009/11/16/1604009.html)
 * [@The Inno DB Strorage Engine](https://dev.mysql.com/doc/refman/5.6/en/innodb-introduction.html)
-
-
+* [@高并发下的系统设计（偏数据库设计）](http://blog.csdn.net/wangkehuai/article/details/46727203)
