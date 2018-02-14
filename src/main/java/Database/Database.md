@@ -80,8 +80,23 @@ SQL Server 锁的类型有三种：
 * 行锁：select ... for update;
 * 表锁：lock table table_type;
 
+## 数据库事务有哪些？
+
+可能会有以下问题：
+* `更新丢失` - 两个事务都同时更新一行数据，`一个事务对数据的更新把另一个事务对数据的更新覆盖了`
+* `脏读` - 一个事务`读取到了另一个事务未提交的数据操作结果`
+* `不可重复读` - 一个事务`对同一行数据重复读取两次`，但是却得到了不同的结果
+  * `虚读/幻读`：事务T1读取某一批数据后，`事务 T2 对其做了更新/删除/添加`
+
+四种事务隔离：
+* `Read Uncommitted(未授权读取、读未提交)` - 事务B 读取到了 事务A 未提交的数据
+* `Read Committed (授权读取、读提交)` - 读取数据的事务允许其他事务继续访问该行数据，但是未提交的写事务将会禁止其他事务访问该行。
+* `Repeatable Read（可重复读取)` - 读取数据的事务将会禁止写事务（但允许读事务），写事务则禁止任何其他事务。
+* `Serializable（序列化）` - 一个事务一个事务执行
+
 
 引用：
 * [@B树，B-树，B+树，B*树](http://www.cnblogs.com/oldhorse/archive/2009/11/16/1604009.html)
 * [@The Inno DB Strorage Engine](https://dev.mysql.com/doc/refman/5.6/en/innodb-introduction.html)
 * [@高并发下的系统设计（偏数据库设计）](http://blog.csdn.net/wangkehuai/article/details/46727203)
+* [@数据库事务四种隔离界别](http://blog.csdn.net/tolcf/article/details/49283575)
