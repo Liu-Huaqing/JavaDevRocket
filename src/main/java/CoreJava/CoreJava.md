@@ -97,6 +97,31 @@ The most basic interface,
 
 * 【后续补充】
 
+## Hashmap 和 Hashtable 有什么区别？ Hashtable vs SynchronizedMap vs ConcurrentHashMap ?
+
+### Hashmap 和 Hashtable 有什么区别？
+* `Hashtable is synchronized, whereas HashMap is not`
+* `Hashtable does not allow null keys or values`.  `HashMap allows one null key and any number of null values.`
+* One of HashMap's subclasses is LinkedHashMap, so in the event that you'd want predictable iteration order.
+
+`I'd recommend HashMap`. If synchronization becomes an issue, `you may also look at ConcurrentHashMap`.
+
+### Hashtable vs SynchronizedMap vs ConcurrentHashMap
+
+#### SynchronizedMap
+* `Synchronization at Object level`.
+* Every `read/write operation needs to acquire lock`.
+* This essentially gives access to `only one thread to the entire map` & `blocks all the other threads`.
+* SynchronizedHashMap returns Iterator, which fails-fast on concurrent modification.
+
+#### ConcurrentHashMap
+* `High concurrency`.
+* It is `thread safe without synchronizing the whole map`.
+* Reads can happen very fast while `write is done with a lock`.
+* There is `no locking at the object level`, but at a `hashmap bucket level`.
+* ConcurrentHashMap uses `multitude of locks`.
+
+
 
 引用
 
