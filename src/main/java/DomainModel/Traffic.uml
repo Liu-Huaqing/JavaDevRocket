@@ -1,0 +1,145 @@
+@startuml
+
+package user {
+  class People {
+    - id
+    - name
+  }
+
+  class Consumer extends People {
+
+  }
+
+  class Merchant extends People {
+
+  }
+
+  class Channel extends People {
+    
+  }
+
+  class Star extends Channel {
+
+  }
+}
+
+package traffic-source {
+  interface TrafficSource {
+
+  }
+
+  interface OnlineTrafficSource extends TrafficSource {
+
+  }
+
+  interface OfflineTrafficeSource extends TrafficSource {
+
+  }
+}
+
+package traffic {
+  class Traffic {
+    - TrafficSource source
+    - People[] peoples
+  }
+
+  Traffic "1" *-- "1" TrafficSource : contains
+}
+
+package group {
+  abstract Group {
+    - id
+    - groupName
+    - People[] getPeoples()
+  }
+  Group "1" *-- "many" People : contains
+
+  abstract FansGroup extends Group {
+    - Star star
+    - Consumer[] consumers
+  }
+
+  abstract FriendsGroup extends Group {
+    - People[] peoples
+  }
+
+  abstract InterestGroup extends FriendsGroup {
+
+  }
+
+  abstract ProductGroup extends Group {
+    - Merchant merchant
+    - Consumer[] consumers
+  }
+
+  abstract BrandGroup extends ProductGroup {
+
+  }
+
+  abstract MeetingGroup extends FriendsGroup {
+    
+  }
+
+  abstract StartupGroup extends InterestGroup {
+
+  }
+
+  abstract FoodGroup extends InterestGroup {
+
+  }
+
+  abstract HealthGroup extends InterestGroup {
+
+  }
+
+  abstract KnowledgeGroup extends InterestGroup {
+
+  }
+
+  abstract ContentGroup extends ProductGroup {
+
+  }
+}
+
+package platform {
+  interface Platform extends TrafficSource {
+    - getAppName()
+  }
+
+  interface GroupPlatform implements Platform {
+
+  }
+
+  interface ToolPlatform extends Platform {
+
+  }
+
+  GroupPlatform "1" *-- "many" Group : contains
+
+  interface AsyncPlatform extends GroupPlatform {
+
+  }
+
+  interface SyncPlatform extends GroupPlatform {
+
+  }
+
+  class Wechat implements SyncPlatform {
+
+  }
+
+  class OfficialAccount implements AsyncPlatform {
+    
+  }
+
+  class FriendsCircle implements AsyncPlatform {
+
+  }
+
+  class SearchEngine implements ToolPlatform {
+
+  }
+}
+
+
+@enduml

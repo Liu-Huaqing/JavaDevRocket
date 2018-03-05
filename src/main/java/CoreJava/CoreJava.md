@@ -171,8 +171,25 @@ The most basic interface,
 
 ![SingleThreadExecutor](./SingleThreadExecutor.png)
 
+## Synchronized 和 Lock 什么区别？Synchronized 什么时候是对象锁？什么时候是全局锁？
+
+Synchronized 和 Lock 在加锁和内存上提供的语义与内置锁相同，不同点在于
+* Lock 提供`可定时、可轮询、可中断的锁获取操作，如 tryLock`, `synchronized 在等待锁的时候不可被中断`;
+    * 可中断：`Lock.lockInterruptibly` (在等待锁过程中可中断)
+    * 可定时、可轮询：`Lock.tryLock` - 尝试获取锁，获取成功后则返回 true，否则返回 false，另外可以加等待时间
+* Lock 支持公平队列;
+* Lock 支持非结构的锁;
+* Synchronized 不需要手动释放;
+
+如果不需要用到 Lock 提供的特殊锁需求，则建议使用 Synchronized。
+* Synchronized(Sync.class) 是全局锁
+
+
+
 引用
 
 * [@Java 集合框架](https://docs.oracle.com/javase/8/docs/technotes/guides/collections/overview.html)
 * [@Java 8 Collection Tutorials](https://docs.oracle.com/javase/tutorial/collections/index.html)
 * [@Java 线程池](https://www.jianshu.com/p/210eab345423)
+* [@可中断的锁](http://blog.csdn.net/u011116672/article/details/51064186)
+* [@Lock Example](https://www.concretepage.com/java/reentrantlock-java-example-with-lock-unlock-trylock-lockinterruptibly-isheldbycurrentthread-and-getholdcount)
