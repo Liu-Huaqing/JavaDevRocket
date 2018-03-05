@@ -184,6 +184,13 @@ Synchronized 和 Lock 在加锁和内存上提供的语义与内置锁相同，�
 如果不需要用到 Lock 提供的特殊锁需求，则建议使用 Synchronized。
 * Synchronized(Sync.class) 是全局锁
 
+## ThreadLocal 是什么？底层如何实现？写一个例子。
+
+ThreadLocal 为每个线程通过调用一次 initialValue 来生成一个 Thread 级别的全局变量。
+`底层使用一个 Map<String, K> 来维护不同 thread-id 到相应的值的映射`。
+
+ThreadLocal 示例:
+![ThreadLocal](./ThreadLocal.png)
 
 
 引用
@@ -193,3 +200,4 @@ Synchronized 和 Lock 在加锁和内存上提供的语义与内置锁相同，�
 * [@Java 线程池](https://www.jianshu.com/p/210eab345423)
 * [@可中断的锁](http://blog.csdn.net/u011116672/article/details/51064186)
 * [@Lock Example](https://www.concretepage.com/java/reentrantlock-java-example-with-lock-unlock-trylock-lockinterruptibly-isheldbycurrentthread-and-getholdcount)
+* [@Viewing class diagram](https://www.jetbrains.com/help/idea/viewing-class-hierarchy-as-a-class-diagram.html)
