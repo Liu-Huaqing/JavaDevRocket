@@ -52,9 +52,38 @@ Java 8 内存模型发生变化
 * CMS GC - Concurrent Mark Sweep (CMS) The Concurrent Low Pause Collector，`对旧生代垃圾收集`，由于垃圾收集时候不 STW，可以提高应用响应能力
 * G1 GC - 内存布局都和上面不一样，是`未来的垃圾收集器`
 
-
 ### 性能调优
 `Garbage Collector 的选择和新生代、旧生代大小的配置，会严重影响进程的吞吐量、相应时间`。因此需要进行合理的调优和测试，`使用 JVisual VM 来进行性能监控`。
+
+## 线上频繁报 Full GC 如何处理？CPU 使用率过高怎么办？如何定位问题？如何解决？说一下解决思路和方法。
+这里先定义 Minor GC、Major GC、Full GC
+
+Minor GC
+* `Collecting garbage from Young space`
+* `All Minor GCs do trigger stop-the-world pauses`, but the length is short
+
+什么是 Full GC:
+* Full GC == Major GC 指的是对老年代/永久代的 stop the world 的 GC
+* `Full GC 的次数 = Major GC STW 的次数`
+
+`Full GC 会降低应用的性能和效率`
+
+什么时候会触发 Full GC:
+* `System.gc`
+* `老年代空间不足` - 新生代转入、创建大对象、大数组时候，Full GC 后空间仍然不足，则报 OOM: Java Heap Space
+* `永生代空间不足` - Full GC 后空间仍然不足，则报 OOM: PermGen space
+* `CMS GC 时出现promotion failed和concurrent mode failure`
+* `统计得到的Minor GC晋升到旧生代的平均大小大于老年代的剩余空间`
+* `堆中分配很大的对象`
+
+Full GC 该如何处理：
+* 判断堆大小是否合理，是否有内存泄露或者无谓的内存使用；
+* 对不合理的内存泄露，通过`修改程序代码`来解决；
+* 如果程序本身需要较大的堆，`加大堆的大小`；
+
+CPU 使用率过高怎么办？
+* 找到 CPU 使用率过高的线程 id；
+* 使用 jstack 来查看导致 CPU 使用率过高的代码；
 
 引用
 * [@G1 and CMS Gabage Collector 详解](http://www.oracle.com/technetwork/tutorials/tutorials-1876574.html)
@@ -64,4 +93,6 @@ Java 8 内存模型发生变化
 * [@JVM 内存模型](http://gityuan.com/2016/01/09/java-memory/)
 * [@JVM 异常完全指南](https://www.jianshu.com/p/2fdee831ed03)
 * [@Java 7 Memory Model](https://www.journaldev.com/2856/java-jvm-memory-model-memory-management-in-java)
+* [@触发 JVM 进行 Full GC 的情况及应对策略](http://blog.csdn.net/chenleixing/article/details/46706039)
+* [@分析 Java 应用 cpu 占用过高的问题](http://blog.csdn.net/jiangguilong2000/article/details/17971247)
 
