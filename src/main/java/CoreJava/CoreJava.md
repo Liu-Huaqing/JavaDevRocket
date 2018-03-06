@@ -192,6 +192,18 @@ ThreadLocal 为每个线程通过调用一次 initialValue 来生成一个 Threa
 ThreadLocal 示例:
 ![ThreadLocal](./ThreadLocal.png)
 
+## Java volatile 的工作原理
+
+volatile 关键字可以保证变量的：
+
+* 原子性 - 对 volatile 的操作是原子的；
+* 可见性 - 一个线程修改一个共享变量时，另外一个线程能读到这个修改的值；
+* 防止指令重排序 - 对于 volatile 的操作指令不会被重排序，并且操作是原子的；
+
+具体原理实现，略复杂，跳过。
+
+
+
 
 引用
 
@@ -201,3 +213,4 @@ ThreadLocal 示例:
 * [@可中断的锁](http://blog.csdn.net/u011116672/article/details/51064186)
 * [@Lock Example](https://www.concretepage.com/java/reentrantlock-java-example-with-lock-unlock-trylock-lockinterruptibly-isheldbycurrentthread-and-getholdcount)
 * [@Viewing class diagram](https://www.jetbrains.com/help/idea/viewing-class-hierarchy-as-a-class-diagram.html)
+* [@Volatile 实现原理](http://www.infoq.com/cn/articles/ftf-java-volatile)
