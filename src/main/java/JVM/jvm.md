@@ -52,6 +52,10 @@ Java 8 内存模型发生变化
 * CMS GC - Concurrent Mark Sweep (CMS) The Concurrent Low Pause Collector，`对旧生代垃圾收集`，由于垃圾收集时候不 STW，可以提高应用响应能力
 * G1 GC - 内存布局都和上面不一样，是`未来的垃圾收集器`
 
+
+### 性能调优
+`Garbage Collector 的选择和新生代、旧生代大小的配置，会严重影响进程的吞吐量、相应时间`。因此需要进行合理的调优和测试，`使用 JVisual VM 来进行性能监控`。
+
 引用
 * [@G1 and CMS Gabage Collector 详解](http://www.oracle.com/technetwork/tutorials/tutorials-1876574.html)
 * [@Java 7 GC Basics[重要]](http://www.oracle.com/webfolder/technetwork/tutorials/obe/java/gc01/index.html)
