@@ -85,6 +85,16 @@ CPU 使用率过高怎么办？
 * 找到 CPU 使用率过高的线程 id；
 * 使用 jstack 来查看导致 CPU 使用率过高的代码；
 
+## 知道字节码吗？字节码都有哪些？（忽略）
+
+## 讲讲类加载器呗？都有哪些类加载器？这些类加载器都加载哪些文件？
+
+## 知道 osgi 吗？他是如何实现的？
+
+## 请问你做过那些 JVM 优化？使用什么方法？达到什么效果？？
+
+## class.forName("java.lange.String") 和 String.class.getClassLoader().loadClass("java.lang.String")
+
 引用
 * [@G1 and CMS Gabage Collector 详解](http://www.oracle.com/technetwork/tutorials/tutorials-1876574.html)
 * [@Java 7 GC Basics[重要]](http://www.oracle.com/webfolder/technetwork/tutorials/obe/java/gc01/index.html)
